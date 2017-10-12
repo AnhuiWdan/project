@@ -8,7 +8,7 @@
       <i class="icon selected" @click="open"></i>
       <input type="checkbox" class="mint-checkbox" @click="selectAll">
     </div>
-    <div class="list-selected" v-show="selectedShow">
+    <div class="list-selected">
       <ul>
         <li v-for="(items,index) in lists">
           <h1 class="title">
@@ -40,7 +40,6 @@
   export default {
     data() {
       return {
-        selectedShow: true,
         checked: [
           {
             checked: 0
@@ -72,7 +71,7 @@
           {
             'name': '广东广州',
             'length': '2',
-            'default': 'gd',
+            'default': 'true',
             'list': [
               {
                 'name': '天河网通',
@@ -89,7 +88,7 @@
           {
             'name': '广东深圳',
             'length': '2',
-            'default': 'sz',
+            'default': 'true',
             'list': [
               {
                 'name': '南山网通',
@@ -105,12 +104,12 @@
           },
           {
             'name': '浙江杭州',
-            'default': 'hz',
+            'default': 'true',
             'ping': '5'
           },
           {
             'name': '广西南宁',
-            'default': 'nn',
+            'default': 'true',
             'ping': '6'
           }
         ],
@@ -125,12 +124,8 @@
     },
     methods: {
       open() {
-        this.selectedShow = !this.selectedShow
-        let _this = event.currentTarget
-        if (this.selectedShow) {
-          _this.setAttribute('class', 'selected')
-        } else {
-          _this.setAttribute('class', 'sub')
+        for (let i = 0; i < this.lists.length; i++) {
+          this.lists[i].default = !this.lists[i].default
         }
       },
       changeDefault(index) {
