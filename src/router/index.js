@@ -11,11 +11,8 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      redirect: '／dash'
-    },
-    {
-      path: '/dash',
+      path: '/dash/:count/:id',
+      name: 'dash',
       component: dash
     },
     {
@@ -32,6 +29,7 @@ export default new Router({
     },
     {
       path: '/list',
+      name: 'list',
       component: list
     }
   ]

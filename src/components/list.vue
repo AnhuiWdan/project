@@ -1,7 +1,9 @@
 <template>
   <div class="list">
-    <div class="header">
-      <i class="icon"></i>
+    <div class="list-header">
+      <router-link :to="{ name: 'dash', params: { count , id}}">
+        <i class="icon"></i>
+      </router-link>
       <span class="count">选中{{count}}条</span>
       <i class="icon selected" @click="open"></i>
       <input type="checkbox" class="mint-checkbox" @click="selectAll">
@@ -22,7 +24,7 @@
               </div>
               <div class="input">
                 <input type="checkbox" :value="item.name" class="mint-checkbox" v-model="selectArr"
-                       @click="checkBox($event, index)">
+                       @click="checkBox($event, index, item.ping)">
               </div>
               <div class="ping">{{item.ping}}</div>
             </li>
@@ -112,7 +114,8 @@
             'ping': '6'
           }
         ],
-        selectArr: []
+        selectArr: [],
+        id: 0
       }
     },
     computed: {
@@ -164,11 +167,12 @@
           if (this.lists[index].list) {
             let list = this.lists[index].list
             list.forEach(item => this.selectArr.push(item.name))
+            this.id = list[0].ping
             this.checked[index].checked = this.lists[index].list.length
           }
         }
       },
-      checkBox(event, index) {
+      checkBox(event, index, ping) {
         console.log(this.selectArr)
         if (!event.currentTarget.checked) {
           console.log(event.target.value)
@@ -179,6 +183,7 @@
           }
         } else {
           this.checked[index].checked++
+          this.id = ping
           if (this.checked[index].checked === 2) {
             return this.selectArr.push(this.lists[index].name)
           }
@@ -189,7 +194,7 @@
 </script>
 
 <style>
-  .header {
+  .list-header {
     display: flex;
     overflow: hidden;
     width: 100%;
@@ -199,7 +204,7 @@
     color: #fff;
   }
 
-  .header .icon {
+  .list-header .icon {
     display: inline-block;
     flex: 0 0 32px;
     width: 32px;
@@ -210,13 +215,13 @@
     background-size: 32px 32px;
   }
 
-  .header .count {
+  .list-header .count {
     display: inline-block;
     flex: 1;
     line-height: 40px;
   }
 
-  .header .selected {
+  .list-header .selected {
     display: inline-block;
     width: 32px;
     height: 32px;
@@ -228,7 +233,7 @@
     margin-top: 10px;
   }
 
-  .header .sub {
+  .list-header .sub {
     display: inline-block;
     width: 32px;
     height: 32px;

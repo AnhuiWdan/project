@@ -6,7 +6,12 @@
       <div class="next">
         <mt-button size="small">下一条</mt-button>
       </div>
-      <p class="now-load">未连接</p>
+      <p class="now-load">
+
+        <router-link to="/list" v-if="count>0">延时<span class="ping">{{ping}}</span>毫秒<span class="box">适中</span><span
+          class="link">{{link}}</span></router-link>
+        <router-link to="/list" v-else>{{link}}</router-link>
+      </p>
     </div>
     <div class="content">
       <p class="content-item">
@@ -14,7 +19,7 @@
           title="选择路线"
           to=""
           is-link
-          value="18条">
+          :value="value1+'条'">
         </mt-cell>
       </p>
       <p class="content-item">
@@ -22,7 +27,7 @@
           title="代理的程序"
           to=""
           is-link
-          value="8个">
+          :value="value2+'个'">
         </mt-cell>
       </p>
       <p class="content-item">
@@ -30,7 +35,7 @@
           title="不代理的程序"
           to=""
           is-link
-          value="5个">
+          :value="value3+'个'">
         </mt-cell>
       </p>
       <div class="mint-cell-wrapper content-item">
@@ -39,7 +44,7 @@
         </div>
         <div class="mint-cell-value">
           <label class="mint-switch">
-            <input type="checkbox" class="mint-switch-input">
+            <input type="checkbox" class="mint-switch-input" @change="change">
             <span class="mint-switch-core"></span>
             <div class="mint-switch-label"></div>
           </label>
@@ -51,7 +56,7 @@
         </div>
         <div class="mint-cell-value">
           <label class="mint-switch">
-            <input type="checkbox" class="mint-switch-input">
+            <input type="checkbox" class="mint-switch-input" @change="change">
             <span class="mint-switch-core"></span>
             <div class="mint-switch-label"></div>
           </label>
@@ -68,10 +73,62 @@
 
 <script type="text/ecmascript-6">
   export default {
-    data () {
+    data() {
       return {
-        selected: null
+        selected: '主页',
+        value: '',
+        value1: 18,
+        value2: 8,
+        value3: 5,
+        count: this.$route.params.count,
+        ping: this.$route.params.id,
+        proData: [
+          {
+            'name': '广东广州'
+          }, {
+            'name': '天河网通'
+          }, {
+            'name': '海珠网通'
+          }, {
+            'name': '广东深圳'
+          }, {
+            'name': '南山网通'
+          }, {
+            'name': '福田电信'
+          }, {
+            'name': '浙江杭州'
+          }, {
+            'name': '广西南宁'
+          }
+        ]
       }
+    },
+    watch: {
+      // footer tab 切换
+      selected: function (val, oldVal) {
+        console.log(val)
+        console.log(oldVal)
+      }
+    },
+    computed: {
+      link: function () {
+        if (this.count === 0) {
+          return '未连接'
+        }
+        if (this.count > 0) {
+          return this.proData[this.count].name
+        }
+      }
+    },
+    methods: {
+      // 开关
+      change: function () {
+        console.log(event.currentTarget)
+      }
+    },
+    beforeRouteEnter(to, from, next) {
+      // to.params.count
+      next()
     }
   }
 </script>
@@ -109,6 +166,30 @@
     text-align: center;
     padding-bottom: 20px;
     font-size: 14px;
+  }
+
+  .header .ping {
+    display: inline-block;
+    padding: 2px 8px;
+    margin: 0 8px;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #333333;
+  }
+
+  .header .box {
+    margin-left: 8px;
+  }
+
+  .header .link {
+    padding: 2px 6px;
+    margin-left: 10px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+  }
+
+  .now-load a {
+    color: #fff;
   }
 
   .content-item {

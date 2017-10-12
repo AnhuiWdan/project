@@ -4,21 +4,21 @@
       <img src="../assets/logo.png" width="234" height="83">
     </div>
     <div class="login-form">
-      <div class="login-form-item">
+      <div class="login-form-item" :class="{'is-danger': errors.has('phone') }">
         <div class="reg-block">
           <input v-model="phone" v-validate="'required|phone'" name="phone" class="reg-input"
                  placeholder="请输入手机号码">
           <span v-show="errors.has('phone')" class="text-style" v-cloak> {{ errors.first('phone') }} </span>
         </div>
       </div>
-      <div class="login-form-item">
+      <div class="login-form-item" :class="{'is-danger': errors.has('password') }">
         <div class="reg-block">
           <input v-model="password" v-validate="'required|min:6|password'" name="password" class="reg-input"
                  placeholder="请输入密码">
           <span v-show="errors.has('password')" class="text-style" v-cloak> {{ errors.first('password') }} </span>
         </div>
       </div>
-      <div class="login-form-item">
+      <div class="login-form-item" :class="{'is-danger': errors.has('yzm') }">
         <div class="login-block">
           <input v-model="yzm" v-validate="'required|size:4'" name="yzm" class="login-input login-yzm-input"
                  placeholder="验证码">
@@ -163,8 +163,13 @@
     font-size: 14px;
     line-height: 48px;
   }
-
+  .reg-block{
+    position: relative;
+  }
   .to-login a {
     color: #2d8cf0;
+  }
+  .is-danger{
+    border-color: #f24546;
   }
 </style>
