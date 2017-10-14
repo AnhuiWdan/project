@@ -5,6 +5,7 @@ import reg from '@/components/reg'
 import login from '@/components/login'
 import find from '@/components/find'
 import list from '@/components/list'
+import img from '@/components/img'
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
       path: '/list',
       name: 'list',
       component: list
+    },
+    {
+      path: '/img',
+      name: 'img',
+      component: img
     }
   ]
 })

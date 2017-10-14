@@ -8,16 +8,16 @@
       </div>
       <p class="now-load">
 
-        <router-link to="/list" v-if="count>0">延时<span class="ping">{{ping}}</span>毫秒<span class="box">适中</span><span
-          class="link">{{link}}</span></router-link>
-        <router-link to="/list" v-else>{{link}}</router-link>
+        <span v-if="count>0">延时<span class="ping">{{ping}}</span>毫秒<span class="box">适中</span><span
+          class="link">{{link}}</span></span>
+        <span v-else>{{link}}</span>
       </p>
     </div>
     <div class="content">
       <p class="content-item">
         <mt-cell
           title="选择路线"
-          to=""
+          to="/list"
           is-link
           :value="value1+'条'">
         </mt-cell>
