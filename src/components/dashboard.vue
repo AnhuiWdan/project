@@ -8,7 +8,7 @@
       </div>
       <p class="now-load">
 
-        <span v-if="count>0">延时<span class="ping">{{ping}}</span>毫秒<span class="box">适中</span><span
+        <span v-if="count">延时<span class="ping">{{ping}}</span>毫秒<span class="box">适中</span><span
           class="link">{{link}}</span></span>
         <span v-else>{{link}}</span>
       </p>
@@ -80,8 +80,8 @@
         value1: 18,
         value2: 8,
         value3: 5,
-        count: this.$route.params.count,
-        ping: this.$route.params.id,
+        count: this.$store.local,
+        ping: this.$store.ping,
         proData: [
           {
             'name': '广东广州'
@@ -112,12 +112,13 @@
     },
     computed: {
       link: function () {
-        if (this.count === 0) {
+        if (this.count === '') {
           return '未连接'
         }
-        if (this.count > 0) {
-          return this.proData[this.count].name
+        if (this.count[0] !== '广东广州' || this.count[0] !== '广东深圳') {
+          return this.count[0]
         }
+        return this.count[1]
       }
     },
     methods: {

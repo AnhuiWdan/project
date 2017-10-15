@@ -12,7 +12,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/dash/:count/:id',
+      path: '/dash',
       name: 'dash',
       component: dash
     },

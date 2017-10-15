@@ -3,8 +3,12 @@
     <ul class="img-list">
       <li v-for="(item, index) in file" class="img-item" v-if="file.length > 0" @mouseover='openClose(index)' @mouseleave="closeIcon(index)">
         <img :src="item.src" :alt="item.title" :title="item.title" class="item-img">
-        <i class="icon-close" v-show="item.close" @click="closeLi(index)"></i>
-        <span v-show="item.close" class="item-title">{{item.title}}</span>
+        <transition name="fade">
+          <i class="icon-close" v-show="item.close" @click="closeLi(index)"></i>
+        </transition>
+        <transition name="fade">
+          <span v-if="item.close" class="item-title">{{item.title}}</span>
+        </transition>
       </li>
     </ul>
     <div class="add">
@@ -99,6 +103,12 @@
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
   .add {
     display: inline-block;
