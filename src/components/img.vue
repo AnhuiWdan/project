@@ -76,6 +76,7 @@
     height: 40px;
     padding: 20px;
     margin-right: 20px;
+    margin-bottom: 20px;
   }
 
   .img-item .item-img {
