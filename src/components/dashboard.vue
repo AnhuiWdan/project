@@ -80,8 +80,8 @@
         value1: 18,
         value2: 8,
         value3: 5,
-        count: this.$store.local,
-        ping: this.$store.ping,
+        count: this.$store.local ? this.$store.local : '',
+        ping: this.$store.ping ? this.$store.ping : 0,
         proData: [
           {
             'name': '广东广州'

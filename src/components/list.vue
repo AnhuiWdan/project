@@ -6,7 +6,7 @@
       </router-link>
       <span class="count">选中{{count}}条</span>
       <i class="icon selected" @click="open"></i>
-      <input type="checkbox" class="mint-checkbox" @click="selectAll">
+      <input type="checkbox" ref="box" class="mint-checkbox" @click="selectAll">
     </div>
     <div class="list-selected">
       <ul>
@@ -15,7 +15,7 @@
             <span style="width: 50%;display: inline-block" @click="changeDefault(index)">{{items.name}}</span>
             <span v-if="items.length>0" class="length"> {{checked[index].checked}}/{{items.length}}</span>
             <input type="checkbox" :value="items.name" class="mint-checkbox" v-model="selectArr"
-                   @click="selectedChild($event, index, items.ping)">
+                   @click="selectedChild($event, index, items.name, items.ping)">
           </h1>
           <ul v-show="items.default">
             <li v-for="item in items.list" class="item">
@@ -24,7 +24,7 @@
               </div>
               <div class="input">
                 <input type="checkbox" :value="item.name" class="mint-checkbox" v-model="selectArr"
-                       @click="checkBox($event, index, item.ping)">
+                       @click="checkBox($event, index, item.name, item.ping)">
               </div>
               <div class="ping">{{item.ping}}</div>
             </li>
@@ -113,13 +113,26 @@
             'ping': '6'
           }
         ],
-        selectArr: this.$store.local,
+        selectArr: [],
         id: 0
+      }
+    },
+    created() {
+      this.selectArr = this.$store.local ? this.$store.local : []
+      if (this.selectArr.indexOf('广东广州')) {
+        this.checked[0].checked = 2
+      }
+      if (this.selectArr.indexOf('广东深圳')) {
+        this.checked[1].checked = 2
       }
     },
     computed: {
       count: function () {
         this.$store.local = this.selectArr
+        if (this.selectArr.length === 8) {
+          this.$refs.box.checked = true
+        }
+        return this.selectArr.length
       }
     },
     methods: {
@@ -147,40 +160,55 @@
           this.checked[1].checked = 2
         }
       },
-      selectedChild(event, index, ping) {
+      selectedChild(event, index, iname, ping) {
         if (!event.currentTarget.checked) {
           if (this.lists[index].list) {
             let list = this.lists[index].list
             let len = list.length
             let name = list[0].name
             let indice = this.selectArr.indexOf(name)
+            let indices = this.selectArr.indexOf(iname)
+            this.selectArr.splice(indices, 1)
             this.checked[index].checked = 0
             return this.selectArr.splice(indice, len)
           }
+          let indice = this.selectArr.indexOf(iname)
+          return this.selectArr.splice(indice, 1)
         } else {
+          if (ping) {
+            this.$store.ping = ping
+          }
           if (this.lists[index].list) {
             let list = this.lists[index].list
             list.forEach(item => this.selectArr.push(item.name))
-            if (ping) {
-              this.$store.ping = ping
-            }
             this.checked[index].checked = this.lists[index].list.length
+            this.$store.ping = this.lists[index].list[0].ping
+            return this.selectArr.push(iname)
           }
         }
       },
-      checkBox(event, index, ping) {
+      checkBox(event, index, iname, ping) {
         if (!event.currentTarget.checked) {
           this.checked[index].checked--
+          console.log(this.checked[index].checked)
           if (this.checked[index].checked === 0) {
+            let inamece = this.selectArr.indexOf(iname)
             let indice = this.selectArr.indexOf(this.lists[index].name)
+            this.selectArr.splice(inamece, 1)
+            console.log(this.selectArr.splice(inamece, 1))
             return this.selectArr.splice(indice, 1)
           }
+          let inamece = this.selectArr.indexOf(iname)
+          return this.selectArr.splice(inamece, 1)
         } else {
-          this.checked[index].checked++
           this.$store.ping = ping
+          this.checked[index].checked++
           if (this.checked[index].checked === 2) {
+            console.log(this.lists[index].name)
+            this.selectArr.push(iname)
             return this.selectArr.push(this.lists[index].name)
           }
+          return this.selectArr.push(iname)
         }
       }
     }
