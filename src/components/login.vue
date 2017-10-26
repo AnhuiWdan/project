@@ -3,19 +3,17 @@
     <div class="logo">
       <img src="../assets/logo.png" width="234" height="83">
     </div>
-    <div class="login-form">
+    <form class="login-form" @submit.prevent="validateBeforeSubmit">
       <div class="login-form-item" :class="{'is-danger': errors.has('phone') }">
         <div class="reg-block">
           <input v-model="phone" v-validate="'required|phone'" name="phone" class="reg-input"
                  placeholder="请输入手机号码">
-          <span v-show="errors.has('phone')" class="text-style" v-cloak> {{ errors.first('phone') }} </span>
         </div>
       </div>
       <div class="login-form-item" :class="{'is-danger': errors.has('password') }">
         <div class="reg-block">
           <input v-model="password" v-validate="'required|min:6|password'" name="password" class="reg-input"
                  placeholder="请输入密码">
-          <span v-show="errors.has('password')" class="text-style" v-cloak> {{ errors.first('password') }} </span>
         </div>
       </div>
       <div class="login-form-item" :class="{'is-danger': errors.has('yzm') }">
@@ -23,12 +21,11 @@
           <input v-model="yzm" v-validate="'required|size:4'" name="yzm" class="login-input login-yzm-input"
                  placeholder="验证码">
           <span class="login-yzm">1234</span>
-          <span v-show="errors.has('yzm')" class="text-style" v-cloak> {{ errors.first('yzm') }} </span>
         </div>
       </div>
 
-      <button class="btn">登录</button>
-    </div>
+      <button class="btn" type="submit">登录</button>
+    </form>
     <div class="footer">
       <mt-checklist
         v-model="value"
@@ -48,6 +45,19 @@
         yzm: null,
         value: ['自动登录'],
         password: null
+      }
+    },
+    methods: {
+      validateBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            // eslint-disable-next-line
+            alert('From Submitted!')
+            return
+          }
+
+          alert('Correct them errors!')
+        })
       }
     }
   }
@@ -116,7 +126,6 @@
     text-align: center;
   }
 
-
   .btn {
     width: 100%;
     height: 36px;
@@ -126,33 +135,40 @@
     color: #fff;
     font-size: 14px;
   }
-  .footer{
+
+  .footer {
     width: 70%;
     margin: 0 auto;
   }
-  .footer .mint-checklist{
+
+  .footer .mint-checklist {
     display: inline-block;
     width: 120px;
     vertical-align: top;
     font-size: 14px;
   }
-  .mint-cell-wrapper{
+
+  .mint-cell-wrapper {
     font-size: 14px;
     padding: 0;
   }
-  .mint-checkbox-label{
+
+  .mint-checkbox-label {
     font-size: 14px;
   }
-  .mint-checkbox-core{
+
+  .mint-checkbox-core {
     width: 14px;
     height: 14px;
   }
-  .mint-checkbox-core::after{
+
+  .mint-checkbox-core::after {
     top: 2px;
     left: 5px;
     width: 2px;
     height: 6px;
   }
+
   .to-login {
     display: inline-block;
     float: right;
@@ -163,13 +179,16 @@
     font-size: 14px;
     line-height: 48px;
   }
-  .reg-block{
+
+  .reg-block {
     position: relative;
   }
+
   .to-login a {
     color: #2d8cf0;
   }
-  .is-danger{
+
+  .is-danger {
     border-color: #f24546;
   }
 </style>

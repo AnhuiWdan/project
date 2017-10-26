@@ -3,7 +3,7 @@
     <div class="logo">
       <img src="../assets/logo.png" width="234" height="83">
     </div>
-    <div class="reg-form">
+    <form class="reg-form"  @submit.prevent="validateBeforeSubmit">
       <div class="reg-form-item" :class="{'is-danger': errors.has('phone') }">
         <div class="reg-block">
           <input v-model="phone" v-validate="'required|phone'" name="phone" class="reg-input"
@@ -31,8 +31,8 @@
         </div>
       </div>
 
-      <button class="btn">注册</button>
-    </div>
+      <button type="submit" class="btn">注册</button>
+    </form>
     <p class="to-login">已经有账号了？ <a href="#">点击登录</a></p>
   </div>
 </template>
@@ -63,6 +63,17 @@
           this.count--
           setTimeout(this.timer, 1000)
         }
+      },
+      validateBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            // eslint-disable-next-line
+            alert('From Submitted!')
+            return
+          }
+
+          alert('Correct them errors!')
+        })
       }
     }
   }
