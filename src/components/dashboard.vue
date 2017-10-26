@@ -135,6 +135,10 @@
 </script>
 
 <style>
+  body{
+    height: 100%;
+    background-color: #f1f1f1;
+  }
   .header {
     background-color: #013399;
     color: #fff;
@@ -193,7 +197,7 @@
     color: #fff;
   }
   .content{
-    background-color: #ddd;
+    background-color: #f1f1f1;
   }
   .content-item {
     overflow: hidden;
