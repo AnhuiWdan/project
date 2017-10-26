@@ -8,14 +8,12 @@
         <div class="reg-block">
           <input v-model="phone" v-validate="'required|phone'" name="phone" class="reg-input"
                  placeholder="请输入手机号码">
-          <span v-show="errors.has('phone')" class="text-style" v-cloak> {{ errors.first('phone') }} </span>
         </div>
       </div>
       <div class="reg-form-item" :class="{'is-danger': errors.has('password') }">
         <div class="reg-block">
           <input v-model="password" v-validate="'required|min:6|password'" name="password" class="reg-input"
                  placeholder="请输入密码">
-          <span v-show="errors.has('password')" class="text-style" v-cloak> {{ errors.first('password') }} </span>
         </div>
       </div>
       <div class="reg-form-item" :class="{'is-danger': errors.has('yzm') }">
@@ -23,7 +21,6 @@
           <input v-model="yzm" v-validate="'required|size:4'" name="yzm" class="reg-input reg-yzm-input"
                  placeholder="验证码">
           <span class="reg-yzm">1234</span>
-          <span v-show="errors.has('yzm')" class="text-style" v-cloak> {{ errors.first('yzm') }} </span>
         </div>
       </div>
       <div class="reg-form-item" :class="{'is-danger': errors.has('phoneYZM') }">
@@ -31,7 +28,6 @@
           <input v-model="phoneYZM" v-validate="'required'" name="phoneYZM" class="reg-input reg-phoneYZM-input"
                  placeholder="请输入短信验证码">
           <button class="reg-phoneYZM" @click="run">{{text}}</button>
-          <span v-show="errors.has('phoneYZM')" class="text-style" v-cloak> {{ errors.first('phoneYZM') }} </span>
         </div>
       </div>
 
