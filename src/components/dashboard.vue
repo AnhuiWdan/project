@@ -20,6 +20,7 @@
           to="/list"
           is-link
           :value="value1+'条'">
+          <img slot="icon" src="../assets/select.png" width="16" height="16">
         </mt-cell>
       </p>
       <p class="content-item" style="margin-top: 10px;">
@@ -28,6 +29,7 @@
           to=""
           is-link
           :value="value2+'个'">
+          <img slot="icon" src="../assets/dai.png" width="16" height="16">
         </mt-cell>
       </p>
       <p class="content-item" style="margin-bottom: 10px;">
@@ -36,9 +38,11 @@
           to=""
           is-link
           :value="value3+'个'">
+          <img slot="icon" src="../assets/no.png" width="16" height="16">
         </mt-cell>
       </p>
       <div class="mint-cell-wrapper content-item">
+        <img slot="icon" src="../assets/auto.png" width="16" height="16" style="margin-right: 5px;">
         <div class="mint-cell-title">
           <span class="mint-cell-text">自动切换</span>
         </div>
@@ -51,6 +55,7 @@
         </div>
       </div>
       <div class="mint-cell-wrapper content-item">
+        <img slot="icon" src="../assets/all.png" width="16" height="16" style="margin-right: 5px;">
         <div class="mint-cell-title">
           <span class="mint-cell-text">全局代理</span>
         </div>
