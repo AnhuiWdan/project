@@ -105,10 +105,10 @@
 
   .item-title {
     display: inline-block;
-    width: 80px;
+    width: 60px;
     height: 20px;
     line-height: 20px;
-    margin-left: -20px;
+    margin-left: -10px;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;

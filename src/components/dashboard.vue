@@ -14,7 +14,7 @@
       </p>
     </div>
     <div class="content">
-      <p class="content-item">
+      <p class="content-item" >
         <mt-cell
           title="选择路线"
           to="/list"
@@ -22,7 +22,7 @@
           :value="value1+'条'">
         </mt-cell>
       </p>
-      <p class="content-item">
+      <p class="content-item" style="margin-top: 10px;">
         <mt-cell
           title="代理的程序"
           to=""
@@ -30,7 +30,7 @@
           :value="value2+'个'">
         </mt-cell>
       </p>
-      <p class="content-item">
+      <p class="content-item" style="margin-bottom: 10px;">
         <mt-cell
           title="不代理的程序"
           to=""
@@ -192,10 +192,13 @@
   .now-load a {
     color: #fff;
   }
-
+  .content{
+    background-color: #ddd;
+  }
   .content-item {
     overflow: hidden;
     border-bottom: 1px solid #ddd;
+    background-color: #fff;
   }
 
   .content .mint-cell-wrapper {
