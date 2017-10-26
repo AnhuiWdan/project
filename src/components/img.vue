@@ -75,31 +75,33 @@
     width: 40px;
     height: 40px;
     padding: 20px;
-    margin-right: 20px;
     margin-bottom: 20px;
   }
 
   .img-item .item-img {
     width: 100%;
     height: 100%;
+    border-radius: 4px;
+    transition: all .2s;
+  }
+
+  .item-img:hover {
+    box-shadow: 0 1px 6px rgba(0,0,0,.4);
   }
 
   .icon-close {
     position: absolute;
     cursor: pointer;
-    top: 2px;
-    right: 2px;
-    width: 16px;
-    height: 16px;
-    padding: 6px;
-    background: url("../assets/close.png") no-repeat center;
-    -webkit-background-size: 16px 16px;
-    background-size: 16px 16px;
+    top: 10px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    padding: 4px;
+    border-radius: 50%;
+    background: rgba(7, 17, 27, 0.4) url("../assets/close.png") no-repeat center;
+    background-size: 10px 10px;
   }
 
-  .icon-close:hover {
-    background-color: #fff;
-  }
 
   .item-title {
     display: inline-block;
@@ -110,6 +112,7 @@
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-size: 12px;
   }
 
   .fade-enter-active, .fade-leave-active {
