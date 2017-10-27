@@ -15,7 +15,7 @@
 
     <mt-tabbar v-model="selected">
       <mt-tab-item id="主页">
-        <router-link to="home"></router-link>
+        <router-link to="dash"></router-link>
         <img slot="icon" src="./assets/index.png">主页
       </mt-tab-item>
       <mt-tab-item id="用户">
@@ -36,7 +36,7 @@
     name: 'app',
     data() {
       return {
-        selected: ''
+        selected: '主页'
       }
     },
     watch: {
