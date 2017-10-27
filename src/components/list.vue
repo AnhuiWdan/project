@@ -5,33 +5,20 @@
         <i class="icon"></i>
       </router-link>
       <span class="count">选中{{count}}条</span>
-      <i class="icon selected" @click="open"></i>
-      <input type="checkbox" ref="box" class="mint-checkbox" @click="selectAll">
+      <span class="input">
+        <i class="el-icon-circle-check active" v-if="tree" @click="setCheckedNodes"></i>
+        <i class="el-icon-circle-check" v-else @click="resetChecked"></i>
+      </span>
     </div>
-    <div class="list-selected">
-      <ul>
-        <li v-for="(items,index) in lists">
-          <h1 class="title">
-            <span style="width: 50%;display: inline-block" @click="changeDefault(index)">{{items.name}}</span>
-            <span v-if="items.length>0" class="length"> {{checked[index].checked}}/{{items.length}}</span>
-            <input type="checkbox" :value="items.name" class="mint-checkbox" v-model="selectArr"
-                   @click="selectedChild($event, index, items.name, items.ping)">
-          </h1>
-          <ul v-show="items.default">
-            <li v-for="item in items.list" class="item">
-              <div class="item-name">
-                {{item.name}}
-              </div>
-              <div class="input">
-                <input type="checkbox" :value="item.name" class="mint-checkbox" v-model="selectArr"
-                       @click="checkBox($event, index, item.name, item.ping)">
-              </div>
-              <div class="ping">{{item.ping}}</div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <el-tree
+      :data="data1"
+      show-checkbox
+      node-key="id"
+      ref="tree"
+      :default-expanded-keys="[1, 2, 3]"
+      :render-content="renderContent"
+      @check-change="change">
+    </el-tree>
   </div>
 
 </template>
@@ -40,14 +27,6 @@
   export default {
     data() {
       return {
-        checked: [
-          {
-            checked: 0
-          },
-          {
-            checked: 0
-          }
-        ],
         proData: [
           {
             'name': '广东广州'
@@ -67,149 +46,120 @@
             'name': '广西南宁'
           }
         ],
-        lists: [
+        id: 0,
+        count: 0,
+        tree: true,
+        active: 'active',
+        data1: [
           {
-            'name': '广东广州',
-            'length': '2',
-            'default': 'true',
-            'list': [
-              {
-                'name': '天河网通',
-                'ping': '1',
-                'default': 'th'
-              },
-              {
-                'name': '海珠网通',
-                'default': 'hz',
-                'ping': '2'
-              }
-            ]
+            id: 1,
+            label: '广东广州',
+            children: [{
+              id: 5,
+              label: '天河网通',
+              ping: '延时 8 ms'
+            }, {
+              id: 6,
+              label: '海珠网通',
+              ping: '延时 7 ms'
+            }]
           },
           {
-            'name': '广东深圳',
-            'length': '2',
-            'default': 'true',
-            'list': [
-              {
-                'name': '南山网通',
-                'default': 'ns',
-                'ping': '3'
-              },
-              {
-                'name': '福田电信',
-                'default': 'ft',
-                'ping': '4'
-              }
-            ]
+            id: 2,
+            label: '广东深圳',
+            children: [{
+              id: 7,
+              label: '南山网通',
+              ping: '延时 100 ms'
+            }, {
+              id: 8,
+              label: '福田电信',
+              ping: '延时 78 ms'
+            }]
           },
           {
-            'name': '浙江杭州',
-            'default': 'true',
-            'ping': '5'
+            id: 3,
+            label: '浙江杭州',
+            ping: '延时 8 ms'
           },
           {
-            'name': '广西南宁',
-            'default': 'true',
-            'ping': '6'
+            id: 4,
+            label: '广西南宁',
+            ping: '延时 10 ms'
           }
         ],
-        selectArr: [],
-        id: 0
-      }
-    },
-    created() {
-      this.selectArr = this.$store.local ? this.$store.local : []
-      if (this.selectArr.indexOf('广东广州')) {
-        this.checked[0].checked = 2
-      }
-      if (this.selectArr.indexOf('广东深圳')) {
-        this.checked[1].checked = 2
-      }
-    },
-    computed: {
-      count: function () {
-        this.$store.local = this.selectArr
-        if (this.selectArr.length === 8) {
-          this.$refs.box.checked = true
+        defaultProps: {
+          children: 'children',
+          label: 'label'
         }
-        return this.selectArr.length
+      }
+    },
+    watch: {
+      count() {
+        if (this.count === 8) {
+          this.tree = false
+        }
       }
     },
     methods: {
-      open() {
-        for (let i = 0; i < this.lists.length; i++) {
-          this.lists[i].default = !this.lists[i].default
-        }
+      setCheckedNodes() {
+        this.$refs.tree.setCheckedNodes([
+          {
+            id: 1,
+            label: '广东广州',
+            children: [{
+              id: 5,
+              label: '天河网通'
+            }, {
+              id: 6,
+              label: '海珠网通'
+            }]
+          },
+          {
+            id: 2,
+            label: '广东深圳',
+            children: [{
+              id: 7,
+              label: '南山网通'
+            }, {
+              id: 8,
+              label: '福田电信'
+            }]
+          },
+          {
+            id: 3,
+            label: '浙江杭州'
+          },
+          {
+            id: 4,
+            label: '广西南宁'
+          }
+        ])
+        this.tree = !this.tree
       },
-      changeDefault(index) {
-        if (this.lists[index].default) {
-          this.lists[index].default = false
-        } else {
-          this.lists[index].default = true
-        }
+      resetChecked() {
+        this.$refs.tree.setCheckedKeys([])
+        this.tree = !this.tree
       },
-      selectAll(event) {
-        if (!event.currentTarget.checked) {
-          this.selectArr = []
-          this.checked[0].checked = 0
-          this.checked[1].checked = 0
-        } else {
-          this.selectArr = []
-          this.proData.forEach((item, i) => this.selectArr.push(item.name))
-          this.checked[0].checked = 2
-          this.checked[1].checked = 2
-        }
+      getCheckedKeys() {
+        console.log(this.$refs.tree.getCheckedKeys())
       },
-      selectedChild(event, index, iname, ping) {
-        if (!event.currentTarget.checked) {
-          if (this.lists[index].list) {
-            let list = this.lists[index].list
-            let len = list.length
-            let name = list[0].name
-            let indice = this.selectArr.indexOf(name)
-            let indices = this.selectArr.indexOf(iname)
-            this.selectArr.splice(indices, 1)
-            this.checked[index].checked = 0
-            return this.selectArr.splice(indice, len)
-          }
-          let indice = this.selectArr.indexOf(iname)
-          return this.selectArr.splice(indice, 1)
-        } else {
-          if (ping) {
-            this.$store.ping = ping
-          }
-          if (this.lists[index].list) {
-            let list = this.lists[index].list
-            list.forEach(item => this.selectArr.push(item.name))
-            this.checked[index].checked = this.lists[index].list.length
-            this.$store.ping = this.lists[index].list[0].ping
-            return this.selectArr.push(iname)
-          }
-        }
+      change(data, node, store) {
+        node ? ++this.count : --this.count
       },
-      checkBox(event, index, iname, ping) {
-        if (!event.currentTarget.checked) {
-          this.checked[index].checked--
-          console.log(this.checked[index].checked)
-          if (this.checked[index].checked === 0) {
-            let inamece = this.selectArr.indexOf(iname)
-            let indice = this.selectArr.indexOf(this.lists[index].name)
-            this.selectArr.splice(inamece, 1)
-            console.log(this.selectArr.splice(inamece, 1))
-            return this.selectArr.splice(indice, 1)
-          }
-          let inamece = this.selectArr.indexOf(iname)
-          return this.selectArr.splice(inamece, 1)
-        } else {
-          this.$store.ping = ping
-          this.checked[index].checked++
-          if (this.checked[index].checked === 2) {
-            console.log(this.lists[index].name)
-            this.selectArr.push(iname)
-            return this.selectArr.push(this.lists[index].name)
-          }
-          return this.selectArr.push(iname)
-        }
+      toggles() {
+        this.tree = !this.tree
+      },
+      renderContent(h, { node, data, store }) {
+        return (
+          <span>
+            <span>
+              <span>{node.label}</span>
+              {data.children ? <span style="margin-left: 20px;color: #26a2ff">{data.children.length}</span> : <span></span>}
+            </span>
+            <span style="float: right; margin-right: 50px">{data.ping}</span>
+          </span>
+        )
       }
     }
   }
@@ -242,32 +192,36 @@
     flex: 1;
     line-height: 40px;
   }
-
-  .list-header .selected {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    margin-left: 8px;
-    background: url("../assets/add.png") no-repeat 0 0;
-    flex: 0 0 20px;
-    vertical-align: top;
-    background-size: 20px 20px;
-    margin-top: 10px;
+  .list-header .input{
+    width: 40px;
   }
-
-  .list-header .sub {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    margin-left: 8px;
-    background: url("../assets/sub.png") no-repeat 0 0;
-    flex: 0 0 20px;
-    vertical-align: top;
-    background-size: 20px 20px;
-    margin-top: 10px;
+  .list-header .input .el-icon-circle-check{
+    cursor: pointer;
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    color: #fff;
   }
-
+  .list-header .input .active{
+    cursor: pointer;
+    display: block;
+    margin-top: 9px;
+    margin-left: 10px;
+    width: 20px;
+    height: 21px;
+    line-height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+  }
+  .list-header .input .active:before{
+    content: ' ';
+  }
   .mint-checkbox {
+    display: none;
     width: 20px;
     height: 20px;
     margin-left: 20px;
@@ -314,11 +268,6 @@
     margin-left: 12px;
   }
 
-  .list-selected .item .input {
-    float: right;
-    vertical-align: top;
-    margin-top: -5px;
-  }
 
   .list-selected .ping {
     float: right;
