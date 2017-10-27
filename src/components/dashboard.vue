@@ -14,7 +14,7 @@
       </p>
     </div>
     <div class="content">
-      <p class="content-item" >
+      <p class="content-item">
         <mt-cell
           title="选择路线"
           to="/list"
@@ -23,6 +23,18 @@
           <img slot="icon" src="../assets/select.png" width="16" height="16">
         </mt-cell>
       </p>
+      <div class="content-item">
+        <div class="content-item-pro">
+          <div class="mint-cell-title">
+            <i class="icon"></i>
+            <span class="mint-cell-text">网络延迟</span>
+          </div>
+          <mt-progress :value="60">
+            <div slot="start">100</div>
+            <div slot="end">1000</div>
+          </mt-progress>
+        </div>
+      </div>
       <p class="content-item" style="margin-top: 10px;">
         <mt-cell
           title="代理的程序"
@@ -68,11 +80,6 @@
         </div>
       </div>
     </div>
-    <mt-tabbar v-model="selected">
-      <mt-tab-item id="主页"><img slot="icon" src="../assets/index.png">主页</mt-tab-item>
-      <mt-tab-item id="用户"><img slot="icon" src="../assets/user.png">用户</mt-tab-item>
-      <mt-tab-item id="设置"><img slot="icon" src="../assets/setting.png">设置</mt-tab-item>
-    </mt-tabbar>
   </div>
 </template>
 
@@ -80,7 +87,6 @@
   export default {
     data() {
       return {
-        selected: '主页',
         value: '',
         value1: 18,
         value2: 8,
@@ -108,13 +114,6 @@
         ]
       }
     },
-    watch: {
-      // footer tab 切换
-      selected: function (val, oldVal) {
-        console.log(val)
-        console.log(oldVal)
-      }
-    },
     computed: {
       link: function () {
         if (this.count === '') {
@@ -140,10 +139,11 @@
 </script>
 
 <style>
-  body{
+  body {
     height: 100%;
     background-color: #f1f1f1;
   }
+
   .header {
     background-color: #013399;
     color: #fff;
@@ -201,16 +201,51 @@
   .now-load a {
     color: #fff;
   }
-  .content{
+
+  .content {
     background-color: #f1f1f1;
   }
+
   .content-item {
     overflow: hidden;
     border-bottom: 1px solid #ddd;
     background-color: #fff;
   }
+  .content-item .content-item-pro{
+    display: flex;
+    padding: 0 10px;
+  }
+  .content-item .content-item {
+    display: inline;
+  }
+  .content-item .mint-cell-title{
+    height: 48px;
+    line-height: 48px;
+  }
+  .content-item .content-item-pro .icon{
+    vertical-align: top;
+    margin-top: 16px;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    background: url("../assets/progress.png") no-repeat 0 0;
+    background-size: 16px 16px;
+  }
+  .content-item .content-item-pro .mint-cell-text{
+    vertical-align: top;
+    line-height: 48px;
+  }
+  .content-item .mt-progress {
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+  }
 
   .content .mint-cell-wrapper {
     height: 48px;
+    background-image: none;
+  }
+  .content-item .mint-cell:last-child{
+    background-image: none;
   }
 </style>
