@@ -29,10 +29,10 @@
             <i class="icon"></i>
             <span class="mint-cell-text">网络延迟</span>
           </div>
-          <mt-progress :value="60">
+          <mt-range v-model="rangeValue">
             <div slot="start">100</div>
             <div slot="end">1000</div>
-          </mt-progress>
+          </mt-range>
         </div>
       </div>
       <p class="content-item" style="margin-top: 10px;">
@@ -87,6 +87,7 @@
   export default {
     data() {
       return {
+        rangeValue: 40,
         value: '',
         value1: 18,
         value2: 8,
@@ -221,6 +222,14 @@
   .content-item .mint-cell-title{
     height: 48px;
     line-height: 48px;
+  }
+  .mt-range{
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+  }
+  .mt-range .mt-range-thumb{
+    top: 9px;
   }
   .content-item .content-item-pro .icon{
     vertical-align: top;
