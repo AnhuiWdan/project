@@ -36,3 +36,12 @@ Validator.extend('phone', {
     return value.length === 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value)
   }
 })
+// 在validate后面加规则&&
+Validator.extend('password', {
+  messages: {
+    zh_CN: field => field + '必须有6位'
+  },
+  validate: value => {
+    return value.length > 5
+  }
+})
